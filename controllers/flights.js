@@ -86,6 +86,29 @@ for (let key in req.body) {
   })
 }
 
+function createTicket(req, res) {
+  // find the ticket (by _id)
+  Flight.findById(req.params.flightId)
+  .then(flight => {
+    // create the ticket (by pushing into tickets array)
+    flight.tickets.push(req.body)
+    // save the flight document
+    flight.save()
+    .then(() => {
+      // redirect to the show view
+      res.redirect(`/flights/${req.params.flightId}`)
+    })
+    .catch(err => {
+      console.log(err)
+      res.redirect('/flights')
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/flights')
+  })
+}
+
 function deleteFlight(req, res) {
   // use the model to delete the flight
   Flight.findByIdAndDelete(req.params.flightId)
@@ -106,5 +129,6 @@ export {
   show,
   edit,
   deleteFlight as delete, 
-  update
+  update,
+  createTicket,
 }
