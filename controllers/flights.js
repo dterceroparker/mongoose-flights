@@ -41,7 +41,7 @@ function create(req, res) {
   // for (let number in req.body) {
   //   if (req.body[number] === '') delete req.body[number]
   // }
-  // use Flight model to create movie
+  // use Flight model to create flight
   Flight.create(req.body)
   .then(flight => {
     // redirect somewhere
@@ -53,10 +53,58 @@ function create(req, res) {
   })
 }
 
+function edit(req, res) {
+  // find the flight by flight._id (req.params.flightId)
+  Flight.findById(req.params.flightId)
+  .then(flight => {
+    // render a flights/edit view and pass the flight and title to it
+    res.render('flights/edit', {
+      flight: flight,
+      title: 'Edit Flight'
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/flights')
+  })
+}
+
+function update(req, res) {
+  // remove empty properties on req.body
+  // for (let number in req.body) {
+  //   if (req.body[number] === '') delete req.body[number]
+  // }
+  // use Flight model to create flight
+  Flight.findByIdAndUpdate(req.params.flightId, req.body, {new: true})
+  .then(flight => {
+    // redirect to show view
+    res.redirect(`/flights/${flight._id}`)
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/flights')
+  })
+}
+
+function deleteFlight(req, res) {
+  // use the model to delete the flight
+  Flight.findByIdAndDelete(req.params.flightId)
+  .then(flight => {
+    // redirect back to index view
+    res.redirect('/flights')
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/')
+  })
+}
 
 export {
   newFlight as new,
   index,
   create,
   show,
+  edit,
+  deleteFlight as delete, 
+  update
 }
