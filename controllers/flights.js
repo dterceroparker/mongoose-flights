@@ -38,9 +38,9 @@ function newFlight(req, res) {
 
 function create(req, res) {
   // remove empty properties on req.body
-  // for (let number in req.body) {
-  //   if (req.body[number] === '') delete req.body[number]
-  // }
+  for (let key in req.body) {
+    if (req.body[key] === '') delete req.body[key]
+  }
   // use Flight model to create flight
   Flight.create(req.body)
   .then(flight => {
@@ -70,10 +70,10 @@ function edit(req, res) {
 }
 
 function update(req, res) {
-  // remove empty properties on req.body
-  // for (let number in req.body) {
-  //   if (req.body[number] === '') delete req.body[number]
-  // }
+ // remove empty properties on req.body
+for (let key in req.body) {
+  if (req.body[key] === '') delete req.body[key]
+}
   // use Flight model to create flight
   Flight.findByIdAndUpdate(req.params.flightId, req.body, {new: true})
   .then(flight => {
