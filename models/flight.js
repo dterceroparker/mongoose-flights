@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const flightSchema = new Schema({
-  arline: {
+  airline: {
     type: String,
     enum: ['American', 'Southwest', 'United']
   },
@@ -19,11 +19,12 @@ const flightSchema = new Schema({
     max: 9999
   },
   departs: {
+    type: Date,
     default: function() {
       // current date stored into variable link: https://stackoverflow.com/questions/6002254/get-the-current-year-in-javascript
-      let newDate = new Date() 
+      let newDate = new Date()
       let adjustedDate = newDate.setFullYear(new Date().getFullYear() + 1)
-      return adjustedDate
+        return adjustedDate
     }
   },  
 }, {

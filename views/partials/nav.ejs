@@ -1,3 +1,17 @@
 </head>
 <body>
-  <h1><%= title %></h1>
+  <nav>
+		<i class="fa-sharp fa-solid fa-plane fa-fade fa-sm" style="color: #ff2600;"></i>
+    <a 
+      href='/flights/new'
+      class=<%= title === 'Add Flight' ? 'active' : '' %>
+    >
+      ADD FLIGHT
+    </a>
+    <a
+      href="flights"
+      class=<%= title === 'All Flights' ? 'active' : ''  %>
+    >
+      ALL FLIGHTS 
+    </a>
+  </nav>
