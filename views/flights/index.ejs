@@ -4,20 +4,20 @@
 
 <main>
   <h1>Flight List</h1>
-  <table id="list"></table>
-  <thead>
-    <tr>
-      <th>Airline</th>
-      <th>Flight Number</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% flights.forEach(flight => { %>
+  <table id="list">
+    <thead>
+      <tr>
+        <th>Airline</th>
+        <th>Airport</th>
+        <th>Flight Number</th>
+        <th>Departure Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% flights.forEach((flight) => { %>
       <tr>
         <td><%= flight.airline %></td>
-        <td><%= flight.flightNo %></td>
+        <td><%= flight.airport %></td>
         <td><a href="/flights/<%= flight._id %>">Details</a></td>
         <td>
           <form 
@@ -28,8 +28,8 @@
           </form>
         </td>
       </tr>
-    <% }) %>
-  </tbody>
+      <% }) %>
+    </tbody>
   </table>
 </main>
 
