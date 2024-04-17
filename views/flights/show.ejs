@@ -17,7 +17,7 @@
     <div>Flight Number: </div>
     <div><%= flight.flightNo %></div>
     <div>Departs: </div>
-    <div><%= flight.departs.toLocaleDateString() %></div>
+    <div><%= flight.departs.toLocaleString('en-US', {weekday: 'long', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'}) %></div>
   </section>
   <h2>Tickets</h2>
   <form 
@@ -25,9 +25,9 @@
     action="/flights/<%= flight._id %>/tickets"
     method="POST"
   >
-    <label for="seat-input">Seat:</label>
-    <input name="seat" required pattern="[A-F][1-9]\d?">
-    <label for="price-input">Price:</label>
+    <label for="seat-input">Seat (A1-F99):</label>
+    <input name="seat" required pattern="[A-F][1-99]\d?">
+    <label for="price-input">Price ($):</label>
     <input type="number" name="price" id="price-input">
     <button type="submit">Add Ticket</button>
   </form>
