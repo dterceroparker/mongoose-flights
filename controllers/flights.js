@@ -1,4 +1,5 @@
 import { Flight } from '../models/flight.js'
+import { Meal } from '../models/meal.js'
 
 function index(req, res) {
    // use flight model to search for all flights
@@ -18,10 +19,16 @@ function index(req, res) {
 
 function show(req, res) {
   Flight.findById(req.params.flightId)
+  .populate('meals')
   .then(flight => {
-    res.render('flights/show', {
-      flight: flight,
-      title: 'Flight Detail'
+    // find the meals not already associated with the flight
+    Meal.find({_id: {$nin: flight.meals}})
+    .then(meals => {
+      res.render('flights/show', {
+        flight: flight,
+        title: 'Flight Detail',
+        meals: meals
+      })
     })
   })
   .catch(err => {
@@ -122,6 +129,29 @@ function deleteFlight(req, res) {
   })
 }
 
+function addToMeal(req, res) {
+  // find the flight by id
+  Flight.findById(req.params.flightId)
+  .then(flight => {
+    // associate mealId (in req.body) by adding to meal array
+    flight.meals.push(req.body.mealId)
+    // save the parent document
+    flight.save()
+    .then(() => {
+      // redirect back to flight show view
+      res.redirect(`/flights/${flight._id}`)
+    })
+    .catch(err => {
+      console.log(err)
+      res.redirect('/flights')
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/flights')
+  })
+}
+
 export {
   newFlight as new,
   index,
@@ -131,4 +161,5 @@ export {
   deleteFlight as delete, 
   update,
   createTicket,
+  addToMeal
 }
